@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mysql/models/home.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -21,7 +23,8 @@ class MyApp extends StatelessWidget {
         )
       ),
       initialRoute: '/',
-      routes: {
+      routes: {        
+        '/': (context) => const Home(),
       },
     );
   }
