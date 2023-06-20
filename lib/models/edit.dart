@@ -30,7 +30,7 @@ Future _getData() async {
         //you have to take the ip address of your computer
         //because using localhost will cause an error 
         //get detail data with id
-        "http://192.168.1.7/note_app/detail.php?id= '${widget.id}"));
+        "http://http://192.168.1.49/note_app/detail.php?id= '${widget.id}"));
 
     // if response successful
     if (response.statusCode == 200) {
@@ -49,7 +49,7 @@ Future _getData() async {
 Future _onUpdate(context) async {
   try {
     return await http.post(
-      Uri.parse("http://192.168.1.7/note_app/update.php"),
+      Uri.parse("http://192.168.1.49/note_app/update.php"),
       body: {
         "id": widget.id,
         "title": title.text, 
@@ -72,7 +72,7 @@ Future _onUpdate(context) async {
 Future _onDelete(context) async {
   try{
     return await http.post(
-      Uri.parse("http://192.168.1.7//note_app/delete.php"),
+      Uri.parse("http://192.168.1.49//note_app/delete.php"),
       body: {
         "id": widget.id,
       },
@@ -89,4 +89,39 @@ Future _onDelete(context) async {
     print(e);
   }
 }
-  }
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text("Create New Note"),
+      // ignore: prefer_const_literals_to_create_immutables
+      actions: [
+        Container(
+          padding: const EdgeInsets.only(right: 20),
+          child: IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  //show dialog to confirm delete data
+                  return AlertDialog(
+                    content: const Text('Are you sure you want to delete this?'),
+                    actions: <Widget>[
+                      ElevatedButton(
+                        child: const Icon(Icons.cancel),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                      ElevatedButton(
+                        child: const Icon(Icons.check_circle),
+                        onPressed: () => _onDelete(context),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            icon: const Icon(Icons.delete)),
+      )
+    ],
+  ),
+  
