@@ -45,4 +45,48 @@ Future _getData() async {
     print(e);
   }
 }
+
+Future _onUpdate(context) async {
+  try {
+    return await http.post(
+      Uri.parse("http://192.168.1.7/note_app/update.php"),
+      body: {
+        "id": widget.id,
+        "title": title.text, 
+        "content": content.text,
+      },
+    ).then((value) {
+      //print message after insert to database
+      //you can improve this message with alert dialog
+      var data = jsonDecode(value.body);
+      print(data["message"]);
+
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+    });
+  } catch (e) {
+    print(e);
+  }
+}
+
+Future _onDelete(context) async {
+  try{
+    return await http.post(
+      Uri.parse("http://192.168.1.7//note_app/delete.php"),
+      body: {
+        "id": widget.id,
+      },
+    ).then((value) {
+      //print message after insert to database
+      //you can improve this message with alert dialog
+      var data = jsonDecode(value.body);
+      print(data["message"]);
+      //Remove all existing routes until the home.dart, then rebuild Home.
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+    });
+  } catch (e) {
+    print(e);
+  }
+}
   }
